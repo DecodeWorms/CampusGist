@@ -208,4 +208,3 @@ function getPostIdToCommentOn(){
 
 
 require_once"footer.php";
-hfuh
