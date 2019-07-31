@@ -208,3 +208,12 @@ function getPostIdToCommentOn(){
 
 
 require_once"footer.php";
+
+
+functio convert($m){
+  echo $m;
+}
+
+functio initialize(){
+  return ;
+}
