@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
+  <script src="../assets/js/boostrap.min.js"></script>
+
+<style type="text/css">
+     @media only screen and (min-width: 400px){
+
+     	
+		#div1{
+			width: 100%;
+		}
+		#footer{
+			width: 100%;
+		}
+		
+	}
+</style>
+<body>
+        <nav class="navbar fixed-top navbar-expand-lg bg-danger">
+                <a href="display_blog.php" class="nav-link text-white navbar-brand"><b>LatestInfo</b></a>
+                <span class="text-white"><b>Musa Lawal</b></span>
+                <a href="MyProfile.php" class="nav-link text-white float-right"><span class="glyphicon glyphicon-search"></span><b></b></a>
+                <a href="display_blog.php" class="nav-link text-white"><span class="glyphicon glyphicon-log-out"></span></a>
+                
+         </nav>
+	<div class="text-white text-center bg-warning mt-3" id="regErr">$result</div>
+   <div class="card mt-3" id="regCard">
+    <div class="card-header bg-secondary text-white text-center">REGISTER HERE</div>
+     <div class="card-body">
+         <form action="Sign up.php" method="post" enctype="multipart/form-data">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email"><br>
+              <label for="username" class="form-label">UserName</label>
+              <input type="text" class="form-control" name="username"><br>
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password"><br>
+              <label class="form-label" for="image">Upload Image</label>
+              <input type="file" name="image" class="form-control-file alert alert-secondary" placeholder="select picture"><br>
+              <button type="" class="btn btn-secondary btn-block btn-lg">SUBMIT</button>
+        </form>
+       </div>
+    </div>
+    <nav class="navbar fixed-top navbar-expand-lg bg-danger mt-3">
+                <a href="home.php" class="nav-link text-white"><b>HOME</b></a>
+                <a href="upload_blogs.php" class="nav-link text-white"><b>UPLOAD BLOGS</b></a>
+                <a href="display_blog.php" class="nav-link text-white"><b>MY FEEDS</b></a>
+                <a href="MyProfile.php" class="nav-link text-white"><span class="glyphicon glyphicon-user"></span></a>
+                
+         </nav>
+</body>
+</html>
+
+
