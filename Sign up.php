@@ -52,10 +52,10 @@ function insertUserInputToDB(){
             $result = "Email already exist,kindly choose another email";
           }
           elseif (VerifyIfUserNameAlreadyExist() == true) {
-          $result = "username already exist,kindly choose another username";
+          $result = "Username already exist,kindly choose another username";
           }
           elseif (VerifyIfPasswordEqualtoConfirmPassword() == false) {
-          $result = "password and confirm password are not MATCH!";
+          $result = "Password and Confirm Password are not MATCH!";
           }
 
 }

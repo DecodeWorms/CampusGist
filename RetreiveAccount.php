@@ -85,7 +85,7 @@ echo<<<___END
 <div class="conatiner">
 	<div class="text-white text-center bg-warning mt-3" >$accountResult</div>
    <div class="card mt-3" id="regCard">
-    <div class="card-header bg-secondary text-white text-center">ACCOUNT RECOVERY</div>
+    <div class="card-header bg-secondary text-white text-center">CHANGE PASSWORD</div>
      <div class="card-body">
          <form action="RetreiveAccount.php" method="get">
               <label for="username" class="form-label">Username</label>
