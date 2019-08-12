@@ -203,8 +203,5 @@ function getPostIdToCommentOn(){
  fetchBlogs();
  getPostIdToCommentOn();
  fetchComments();
-
-
-
-
 require_once"footer.php";
+ 

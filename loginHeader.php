@@ -1,9 +1,6 @@
 <?php
 require_once"databaseConnector.php";
 
- 
-
-
 session_start();
 $userEmail = $_SESSION["email"];
 $query = "SELECT Username FROM register 
