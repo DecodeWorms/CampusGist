@@ -35,15 +35,17 @@ function saveAndPost(){
   	 $userIdImage = $userImage[0];
   	 $title = $_POST["title"];
   	 $description = $_POST["description"];
+     $timeOccured = date('D')." ".date('M')." ".date('d')." ".date('y');
 
   	 $image = saveImagesToFolder($_FILES["image"]["name"]);
       
       if($email != "" && $userid != "" && $title != "" && $description != "" && $image != "" && $userIdImage != ""){
 
-  	 $insertQuery = "INSERT INTO blogger
-           VALUES(0,'$userid','$title','$image','$userIdImage','$description')";
+  	 $insertQuery = "INSERT INTO usersPosts
+           VALUES(0,'$userid','$title','$image','$timeOccured','$userIdImage','$description')";
 
   	    mysql_query($insertQuery);
+
   	    $result = "BLOG POSTING IS COMPLETED";
   	}
   	elseif($title == "" || $description == "" || $image == ""){
@@ -120,6 +122,8 @@ ___END;
 
 $customFunc = new Custom();
 $customFunc->createUsersPosts();
+
+// $customFunc->dropColumnTime();
 
 require_once"footer.php"; 
 ?>

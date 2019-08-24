@@ -9,7 +9,7 @@ function fetchBlogs(){
 
    var_dump($userPost);
 
-   $query = "SELECT*FROM blogger
+   $query = "SELECT*FROM usersPosts
        WHERE id = '$userPost'";
 
    $result = mysql_query($query);
@@ -58,17 +58,18 @@ echo<<<___END
     <div class="card">
 
       <div class="card-header bg-secondary text-white">
-           <img src="$row[user_Image]" style="width: 50px; height:50px;" class="img-circle ml-1 mt-3"><span class="ml-3" ><b>$row[user_id]</b></span>
+           <img src="$row[userImage]" style="width: 50px; height:50px;" class="img-circle ml-1 mt-3"><span class="ml-3" ><b>$row[user_id]</b></span>
       </div>
 
       <div class="card-body">
         <img src="$row[image]">
 
-      <div class="card-title mt-2"><p><b>$row[user_id]</b> $row[description]</p></div>
+      <div class="card-title mt-2"><p><b>$row[user_id]</b> $row[postDescription]</p></div>
       
      <form action="userComments.php" method="post">
      <input type="hidden" class="form-control" placeholder="" name="idNumber" value="$postId">
        <button class="btn btn-secondary mt-1 mb-2">$numComments comments</button>
+       $row[timeOccured]
      </form>
 
   <form action="postFullInformations.php" method="post">
@@ -96,7 +97,7 @@ function getPostIdToCommentOn(){
       $comments = $_POST["comments"];
 
       if($postUniqueId != "" && $comments != ""){
-        $query = "INSERT INTO comments
+        $query = "INSERT INTO usersPostsComments
                   VALUES(0,'$commentatorId','$postUniqueId','$comments')";
                   mysql_query($query);
       }
@@ -111,7 +112,7 @@ function getPostIdToCommentOn(){
 
     function numberOfComments($anId){
 
-      $idQuery = "SELECT post_id FROM  comments 
+      $idQuery = "SELECT post_id FROM  usersPostsComments 
                  WHERE post_id = '$anId'";
       $idResult = mysql_query($idQuery);
       $idResult2 = mysql_num_rows($idResult);

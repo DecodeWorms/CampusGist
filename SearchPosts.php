@@ -2,6 +2,8 @@
 require_once"databaseConnector.php";
 require_once"AppHeader.php";
 
+
+$errResult = "";
 echo<<<___END
 
 <!DOCTYPE html>
@@ -26,6 +28,7 @@ echo<<<___END
 </head>
 <body>
     <div class="container">
+    <div class = "bg bg-warning text-center">$errResult</div>
     	<form action="SearchPosts.php" method="get">
     		<label class="form-label" for="search"></label>
     		<input type="text" name="search" placeholder="Search for user posts here..." class="form-control"><button type="" class="btn btn-secondary mt-2">search</button>
@@ -40,6 +43,8 @@ ___END;
     
     session_start();
 
+    global $errResult;
+
     $userName = $_GET["search"];
     
     $_SESSION["username"] = $userName;
@@ -49,7 +54,15 @@ ___END;
 
  	$result = mysql_query($query);
 
+  $errResult = "HELLO";
+  
+
  	while ($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+
+    if($row[Username] != $username )
+      $errResult = "USER NAME UNKNOWN";
+    else
+      $errResult = "SUCCESSFULLY FOUND";
 	
 echo<<<___END
 <!DOCTYPE html>
@@ -91,6 +104,8 @@ ___END;
  }
 
  searchUserPosts();
+
+ 
 
 require_once"footer.php";
 ?>

@@ -98,5 +98,5 @@ echo<<<___END
 
 ___END;
 
-//require_once"footer.php";
+require_once"footer.php";
 ?>

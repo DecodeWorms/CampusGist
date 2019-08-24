@@ -14,7 +14,7 @@ require_once"AppHeader.php";
  	$postId = $_SESSION["postIdNumber"];
  	// echo $postId;
    
- 	$query = "SELECT*FROM comments 
+ 	$query = "SELECT*FROM usersPostsComments 
  	          WHERE post_id = '$postId'";
  	$result = mysql_query($query);
 
@@ -107,7 +107,7 @@ function addComments(){
 
 	if($postId != "" && $userName != "" && $comment != ""){
 
-		$query = "INSERT INTO comments
+		$query = "INSERT INTO usersPostsComments
 		          VALUES(0,'$userName','$postId','$comment')";
 		mysql_query($query);
 	}

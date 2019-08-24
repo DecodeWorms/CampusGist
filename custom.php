@@ -40,6 +40,20 @@ require_once"databaseConnector.php";
     
     }
 
+
+
+   //  function dropColumnTime(){
+
+   //         $query = "ALTER TABLE blogger
+   //           DROP COLUMN timeOccured";
+
+   //           mysql_query($query);
+   // }
+
+    
+
+
+
     function createUsersPosts(){
 
       $query = "CREATE TABLE posts (
