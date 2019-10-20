@@ -3,11 +3,26 @@ require_once"databaseConnector.php";
 require_once"AppHeader.php";
 require_once"custom.php";
 
+
+function createTablePosts(){
+
+  $query = "CREATE TABLE userspostscomments(
+            id int AUTO_INCREMENT NOT NULL PRIMARY KEY,
+            user_id int  NOT NULL,
+            user_name char(25) NOT NULL,
+            post_id int NOT NULL,
+            comments varchar(1000) NOT NULL)";
+  mysql_query($query);
+}
+
+createTablePosts();
+
+
 function fetchBlogs(){
 
-
    session_start();
-   $query = "SELECT*FROM usersPosts ORDER BY id DESC LIMIT 6";
+
+   $query = "SELECT*FROM usersPosts ORDER BY id DESC LIMIT 20";
 
    $result = mysql_query($query);
 
@@ -15,7 +30,7 @@ function fetchBlogs(){
    while($row = mysql_fetch_array($result,MYSQL_ASSOC)){
 
       $postId = $row[id];
-
+      
       $numComments = numberOfComments($postId);
         
 echo<<<___END
@@ -47,23 +62,24 @@ echo<<<___END
     <div class="card">
 
       <div class="card-header bg-secondary text-white">
-           <img src="$row[userImage]" style="width: 50px; height:50px;" class="img-circle ml-1 mt-3"><span class="ml-3" ><b>$row[user_id]</b></span>
+           <img src="$row[user_image]" style="width: 50px; height:50px;" class="img-circle ml-1 mt-3"><span class="ml-3" ><b>$row[user_name]</b></span>
       </div>
 
       <div class="card-body">
         <img src="$row[image]">
 
-      <div class="card-title mt-2"><p><b>$row[user_id]</b> $row[postDescription]</p></div>
-      
-     <form action="userComments.php" method="post">
+      <div class="card-title mt-2"><p><b>$row[user_name]</b> $row[post_description]</p></div>
+     
+     <form action="display_blog.php" method="post">
      <input type="hidden" class="form-control" placeholder="" name="idNumber" value="$postId">
-     <div id = "res"></div>
-       <button class="btn btn-secondary mt-1 mb-2">$numComments comments</button>
-       $row[timeOccured]
+      <input type="submit" name="click" value="view all $numComments comments " class="btn btn-sm mb-2"><br>
+       $row[time_occured]
+
      </form>
 
+
   <form action="display_blog.php" method="post">
-       <input type="hidden" class="form-control" placeholder="" name="idNumber" value="$postId">
+  <input type="hidden" class="form-control" placeholder="" name="idNumber" value="$postId">
        <input type="text" class="form-control" placeholder="Add comment" name="comments">
        <button class="btn btn-secondary mt-1">post</button>
      </form>
@@ -73,32 +89,39 @@ echo<<<___END
 </body>
 
 ___END;
-$row++;   
+loadToComments();
+$row++; 
+
 }
 }
 
-function getPostIdToCommentOn(){
+
+
+function postUserComments(){
 
       // session_start();
-      $user  = new custom();
-      $user->createCommentTable();
+      //$user  = new custom();
+      //$user->createCommentTable();
+      $email = $_SESSION["email"];
+      $usernameQuery = "SELECT Username FROM register 
+                            WHERE Email = '$email'";
+      $usernameQueryResult = mysql_query($usernameQuery);
+      $username = mysql_fetch_array($usernameQueryResult);
+
       $commentatorId = $_SESSION["email"];
       $postUniqueId = $_POST["idNumber"];
       $comments = $_POST["comments"];
+      $userId = $_SESSION["userid"];
+      $theUsername = $username[0];
 
-      if($postUniqueId != "" && $comments != ""){
-        $query = "INSERT INTO usersPostsComments
-                  VALUES(0,'$commentatorId','$postUniqueId','$comments')";
+      if($postUniqueId != "" && $comments != "" && $userId != ""){
+        $query = "INSERT INTO userspostsComments
+                  VALUES(0,'$userId','$theUsername','$postUniqueId','$comments')";
                   mysql_query($query);
       }
-
     }
 
-    function fetchComments(){
 
-      $_SESSION["postIdNumber"] = $_POST["idNumber"];
-
-    }
 
     function numberOfComments($anId){
 
@@ -108,10 +131,21 @@ function getPostIdToCommentOn(){
       $idResult2 = mysql_num_rows($idResult);
       return $idResult2;
     }
-  
+
+    function loadToComments(){
+
+      if(isset($_POST["click"])){
+         $_SESSION["postIdNumber"] = $_POST["idNumber"];
+         return header('location:userComments.php');
+       }
+       else{
+          return "";
+       }
+      
+    }
  fetchBlogs();
- getPostIdToCommentOn();
- fetchComments();
-
-
+ postUserComments();
 require_once"footer.php";
+
+
+?>

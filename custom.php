@@ -92,6 +92,6 @@ require_once"databaseConnector.php";
 
    mysql_query($query);
   }
-}
 
-  
+
+  }

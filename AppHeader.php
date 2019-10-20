@@ -1,7 +1,9 @@
 <?php
 require_once"databaseConnector.php";
 
+function chooseHeader(){
  session_start();
+
 
 if($_SESSION["email"] != ""){
 	require_once"loginHeader.php";
@@ -9,3 +11,7 @@ if($_SESSION["email"] != ""){
 else{
 	require_once"SignUpHeader.php";
 }
+
+}
+
+chooseHeader();

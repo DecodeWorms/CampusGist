@@ -35,6 +35,13 @@ function login(){
   $confirmPasswordResult = mysql_query($confirmPasswordQuery);
 
   $confirmRegPassword = mysql_fetch_array($confirmPasswordResult);
+  
+  $userIdQuery = "SELECT Id FROM register 
+                    WHERE Email = '$email'";
+    $userIdQueryResult = mysql_query($userIdQuery);
+    $userId = mysql_fetch_array($userIdQueryResult);
+
+    $theUserId = $userId[0];
 
 
   if($regEmail[0] == $email && $regPassword[0] == $password && $email != "" && $password != "" && $regPassword[0] == $confirmRegPassword[0]){
@@ -42,6 +49,7 @@ function login(){
     session_start();
     
     $_SESSION["email"] = $email;
+    $_SESSION["userid"] = $theUserId;
     return header('location:display_blog.php');
   }
   else{
@@ -49,6 +57,7 @@ function login(){
   }
 
 }
+
 
 login();
 
@@ -98,5 +107,5 @@ echo<<<___END
 
 ___END;
 
-require_once"footer.php";
+//require_once"footer.php";
 ?>

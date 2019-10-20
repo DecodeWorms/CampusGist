@@ -2,6 +2,8 @@
 require_once"databaseConnector.php";
 require_once"AppHeader.php";
 
+
+function chooseLoginHeader(){
 session_start();
 $userEmail = $_SESSION["email"];
 $query = "SELECT Username FROM register 
@@ -9,6 +11,11 @@ $query = "SELECT Username FROM register
 $result = mysql_query($query);
 $userNameResult = mysql_fetch_array($result);
 $userName = $userNameResult[0];
+
+return $userName;
+}
+
+$result = chooseLoginHeader();
 
 echo<<<___END
 <!DOCTYPE html>
@@ -29,8 +36,9 @@ echo<<<___END
   <body>
           <nav class="navbar fixed-top navbar-expand-lg bg-danger">
                 <a href="#" class="nav-link text-white navbar-brand"><b>CampusGist</b></a>
-                <span class="text-white"><b>$userName</b></span>
+                <span class="text-white"><b>$result</b></span>
                 <a href="SearchPosts.php" class="nav-link text-white float-right"><span class="glyphicon glyphicon-search"></span><b></b></a>
+                <a href="SendMessage.php" class="nav-link text-white float-right"><span class="glyphicon glyphicon-envelope"></span><b></b></a>
                 <a href="Sign out.php" class="nav-link text-white"><span class="glyphicon glyphicon-log-out"></span></a>
                 
          </nav>

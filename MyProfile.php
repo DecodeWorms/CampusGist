@@ -86,7 +86,7 @@ function fetchBlogs(){
    session_start();
    $userEmail = $_SESSION["email"];
 
-   $query = "SELECT username FROM register 
+   $query = "SELECT Username FROM register 
               WHERE Email = '$userEmail'";
    $result = mysql_query($query);
 
@@ -96,8 +96,8 @@ function fetchBlogs(){
 
    $_SESSION["userId"] = $aname;
 
-   $feedQuery = "SELECT * FROM usersPosts
-                 WHERE user_id = '$aname'
+   $feedQuery = "SELECT * FROM usersposts
+                 WHERE user_name = '$aname'
                  ORDER BY id DESC";
    $feedResult = mysql_query($feedQuery);
    
@@ -139,21 +139,22 @@ echo<<<___END
     <div class="card">
 
       <div class="card-header bg-secondary text-white">
-           <img src="$row[userImage]" style="width: 50px; height:50px;" class="img-circle ml-1 mt-3"><span class="ml-3" ><b>$row[user_id]</b></span>
+           <img src="$row[user_image]" style="width: 50px; height:50px;" class="img-circle ml-1 mt-3"><span class="ml-3" ><b>$row[user_name]</b></span>
       </div>
 
       <div class="card-body">
         <img src="$row[image]">
 
-      <div class="card-title mt-2"><p><b>$row[user_id]</b> $row[postDescription]</p></div>
+      <div class="card-title mt-2"><p><b>$row[user_name]</b> $row[post_description]</p></div>
       
-     <form action="userComments.php" method="post">
+     <form action="display_blog.php" method="post">
      <input type="hidden" class="form-control" placeholder="" name="idNumber" value="$postId">
-       <button class="btn btn-secondary mt-1 mb-2">$numComments comments</button>
-       $row[timeOccured]
+      <input type="submit" name="click" value="view all $numComments comments " class="btn btn-sm mb-2"><br>
+       $row[time_occured]
+
      </form>
 
-  <form action="display_blog.php" method="post">
+  <form action="MyProfile.php" method="post">
        <input type="hidden" class="form-control" placeholder="" name="idNumber" value="$postId">
        <input type="text" class="form-control" placeholder="Add comment" name="comments">
        <button class="btn btn-secondary mt-1">post</button>
@@ -164,44 +165,61 @@ echo<<<___END
 </body>
 
 ___END;
+
+loadToComments();
 $row++;   
 }
 }
 
-function getPostIdToCommentOn(){
+
+ function postUserComments(){
 
       // session_start();
-      $user  = new custom();
-      $user->createCommentTable();
+      //$user  = new custom();
+      //$user->createCommentTable();
+      $email = $_SESSION["email"];
+      $usernameQuery = "SELECT Username FROM register 
+                            WHERE Email = '$email'";
+      $usernameQueryResult = mysql_query($usernameQuery);
+      $username = mysql_fetch_array($usernameQueryResult);
+
       $commentatorId = $_SESSION["email"];
       $postUniqueId = $_POST["idNumber"];
       $comments = $_POST["comments"];
+      $userId = $_SESSION["userid"];
+      $theUsername = $username[0];
 
-      if($postUniqueId != "" && $comments != ""){
-        $query = "INSERT INTO usersPostsComments
-                  VALUES(0,'$commentatorId','$postUniqueId','$comments')";
+      if($postUniqueId != "" && $comments != "" && $userId != ""){
+        $query = "INSERT INTO userspostsComments
+                  VALUES(0,'$userId','$theUsername','$postUniqueId','$comments')";
                   mysql_query($query);
       }
-
     }
 
-    function fetchComments(){
 
-      $_SESSION["postIdNumber"] = $_POST["idNumber"];
-
-    }
 
     function numberOfComments($anId){
 
-      $idQuery = "SELECT post_id FROM usersPostsComments 
+      $idQuery = "SELECT post_id FROM  usersPostsComments 
                  WHERE post_id = '$anId'";
       $idResult = mysql_query($idQuery);
       $idResult2 = mysql_num_rows($idResult);
       return $idResult2;
     }
+
+    function loadToComments(){
+
+      if(isset($_POST["click"])){
+         $_SESSION["postIdNumber"] = $_POST["idNumber"];
+         return header('location:userComments.php');
+       }
+       else{
+          return "";
+       }
+      
+    }
   
  fetchBlogs();
- getPostIdToCommentOn();
- fetchComments();
+ postUserComments();
 require_once"footer.php";
  

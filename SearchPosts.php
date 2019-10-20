@@ -2,8 +2,6 @@
 require_once"databaseConnector.php";
 require_once"AppHeader.php";
 
-
-$errResult = "";
 echo<<<___END
 
 <!DOCTYPE html>
@@ -31,7 +29,7 @@ echo<<<___END
     <div class = "bg bg-warning text-center">$errResult</div>
     	<form action="SearchPosts.php" method="get">
     		<label class="form-label" for="search"></label>
-    		<input type="text" name="search" placeholder="Search for user posts here..." class="form-control"><button type="" class="btn btn-secondary mt-2">search</button>
+    		<input type="text" name="search" placeholder="Search for user here..." class="form-control"><button type="" class="btn btn-secondary mt-2">search</button>
     	</form>
     </div>
 </body>
@@ -47,23 +45,23 @@ ___END;
 
     $userName = $_GET["search"];
     
-    $_SESSION["username"] = $userName;
-    
- 	$query = "SELECT*FROM register 
- 	           WHERE username = '$userName'";
+    //$_SESSION["username"] = $userName;
 
- 	$result = mysql_query($query);
+    if($userName != ""){
+      
+    $userSearchName = substr($userName,0,4);
 
-  $errResult = "HELLO";
-  
+ 	  $query = "SELECT*FROM register 
+ 	           WHERE Username LIKE '$userSearchName%'";
+
+  	$result = mysql_query($query);
+
 
  	while ($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
+     $_SESSION["username"] = $row[Username];
+     $searchid = $row[Id];
+     
 
-    if($row[Username] != $username )
-      $errResult = "USER NAME UNKNOWN";
-    else
-      $errResult = "SUCCESSFULLY FOUND";
-	
 echo<<<___END
 <!DOCTYPE html>
 <html>
@@ -88,10 +86,12 @@ echo<<<___END
 <body
 
     <div class = "">
-    <a href = "userSearchedProfile.php" class = "text-secondary ml-4 mt-3" style = "text-decoration:none;">
          <img src = "$row[image]" style="width: 55px; height:55px;" class="img-circle ml-4 mt-3"><br>
-         <h5 class = "ml-4">$row[Username]</h5>
-   </a>
+         <form action="SearchPosts.php" method="post">
+          <input type="hidden" class="form-control" placeholder="" name="searchId" value="$searchid">
+          <input type="submit" name="click" class="btn btn-danger ml-1 mt-1" value = "$row[Username]">
+        </form>
+
     </div>
     <hr>
 
@@ -99,13 +99,33 @@ echo<<<___END
 </html>
 
 ___END;
+  $row++;
+ }
+  }
+   
+ else{
 
- 	}
  }
 
- searchUserPosts();
+ }
 
- 
+searchUserPosts();
 
+
+function loadToUserInfos(){
+
+      if(isset($_POST["click"])){
+         $_SESSION["searchid"] = $_POST["searchId"];
+         echo $_POST["searchid"];
+         return header('location:userSearchedProfile.php');
+       }
+       else{
+          return "";
+       }
+      
+    }
+  
+
+loadToUserInfos();
 require_once"footer.php";
 ?>

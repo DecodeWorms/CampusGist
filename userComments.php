@@ -1,8 +1,7 @@
 <?php
 require_once"databaseConnector.php";
 require_once"AppHeader.php";
-// require_once"display_blog.php";
-// session_start();
+
  
  echo "<b>COMMENTS</b>";
  
@@ -10,9 +9,7 @@ require_once"AppHeader.php";
 
  function fetchUserComments(){
 
- 	session_start();
  	$postId = $_SESSION["postIdNumber"];
- 	// echo $postId;
    
  	$query = "SELECT*FROM usersPostsComments 
  	          WHERE post_id = '$postId'";
@@ -45,7 +42,7 @@ require_once"AppHeader.php";
   <div class = "container-fluid">
   
        <div class = "">
-           <p><b>$row[user_name]</b> : $row[comments]</P>
+           <p><b>$row[user_name]</b>  $row[comments]</P>
        </div>
        <hr>
   </div>
@@ -93,22 +90,23 @@ fetchUserComments();
 </html>
 ___END;
 
-// fetchUserComments();
-
-// var_dump($_SESSION["email"]);
-
-
 function addComments(){
     
-  global $userName;
+  $email = $_SESSION["email"];
+  $usernameQuery = "SELECT Username FROM register 
+                            WHERE Email = '$email'";
+      $usernameQueryResult = mysql_query($usernameQuery);
+      $username = mysql_fetch_array($usernameQueryResult);
+
 	$postId = $_SESSION["postIdNumber"];
-	// $userName = $_SESSION["email"];
+  $userId = $_SESSION["userid"];
 	$comment = $_POST["comment"];
+  $theUsername = $username[0];
 
-	if($postId != "" && $userName != "" && $comment != ""){
+	if($postId != "" && $theUsername != "" && $comment != ""){
 
-		$query = "INSERT INTO usersPostsComments
-		          VALUES(0,'$userName','$postId','$comment')";
+		$query = "INSERT INTO userspostsComments
+		          VALUES(0,'$userId','$theUsername','$postId','$comment')";
 		mysql_query($query);
 	}
 }

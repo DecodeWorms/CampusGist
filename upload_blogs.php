@@ -5,6 +5,15 @@ require_once"AppHeader.php";
 
 $result = "";
 
+function userId(){
+
+  
+
+
+}
+
+  userId();
+
 function saveAndPost(){
 
    global $result;
@@ -30,8 +39,11 @@ function saveAndPost(){
 
 	  $userImage = mysql_fetch_array($emailResult);
 
+    
+    
 
-  	 $userid = $userName[0];
+     $anId  = $_SESSION["userid"];
+  	 $userName = $userName[0];
   	 $userIdImage = $userImage[0];
   	 $title = $_POST["title"];
   	 $description = $_POST["description"];
@@ -39,10 +51,10 @@ function saveAndPost(){
 
   	 $image = saveImagesToFolder($_FILES["image"]["name"]);
       
-      if($email != "" && $userid != "" && $title != "" && $description != "" && $image != "" && $userIdImage != ""){
+      if($email != "" && $userName != "" && $title != "" && $description != "" && $image != "" && $userIdImage != ""){
 
   	 $insertQuery = "INSERT INTO usersPosts
-           VALUES(0,'$userid','$title','$image','$timeOccured','$userIdImage','$description')";
+           VALUES(0,'$anId','$userName','$title','$image','$timeOccured','$userIdImage','$description')";
 
   	    mysql_query($insertQuery);
 
